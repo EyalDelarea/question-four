@@ -32,13 +32,20 @@ class Pipeline {
   }
 }
 
-const pizzaOrder = (numOfTopping) => {
-  return {
-    numOfTopping: numOfTopping,
-    startTime: null,
-    endTime: null,
-  };
-};
+
+class pizzaOrder{
+  constructor(numOfTopping){
+    this.numOfTopping = numOfTopping
+    this.startTime = null
+    this.endTime = null
+    this.totalTime = null
+  }
+  calcTotalTime(){
+    const diff = new Date(Date.parse(this.endTime) - Date.parse(this.startTime))
+    this.totalTime = diff.getSeconds()
+  }
+}
+
 
 async function main() {
   //Init restaurant workers
@@ -54,11 +61,11 @@ async function main() {
    * also, this array can turn into a queue.
    */
   const ordersArray = [
-    pizzaOrder(1),
-    pizzaOrder(4),
-    pizzaOrder(8),
-    pizzaOrder(2),
-    pizzaOrder(0),
+    new pizzaOrder(1),
+    new pizzaOrder(4),
+    new pizzaOrder(8),
+    new pizzaOrder(2),
+    new pizzaOrder(0),
   ];
 
   /**
@@ -89,9 +96,13 @@ async function main() {
     totalStartTime = new Date().toJSON();
     Promise.all(promises).then(() => {
       totalEndTime = new Date().toJSON();
-      console.log("All orders started at : " + totalStartTime);
-      console.log("All orders ended at : " + totalEndTime);
-      console.log("List of orders status:");
+      logger.info("Thank you! Everyone has been feed. now let's see the results:")
+      ordersArray.map(a=>a.calcTotalTime())
+      ordersArray['total'] = {
+        "start_time":totalStartTime,
+        "end_time":totalEndTime,
+        "total_seconds" : new Date(Date.parse(totalEndTime)-Date.parse(totalStartTime)).getSeconds()
+      }
       console.log(ordersArray);
     });
   });
