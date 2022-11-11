@@ -33,18 +33,21 @@ class Pipeline {
 }
 
 const pizzaOrder = (numOfTopping) => {
-  this.numOfTopping = numOfTopping;
-  this.startTime = null;
-  this.endTime = null;
-  return this;
+  return {
+    numOfTopping: numOfTopping,
+    startTime: null,
+    endTime: null,
+  };
 };
 
 async function main() {
   //Init restaurant workers
-  doughChef = new Pipeline("Dough Chef", 7, 2, 1);
-  toppingsChef = new Pipeline("Toppings Chef", 3, 4, 2);
-  oven = new Pipeline("Oven", 1, 10, 1);
-  waiter = new Pipeline("Waiter", 2, 5, 1);
+  doughChef = new Pipeline("Dough Chef", 2, 1, 1);
+  toppingsChef = new Pipeline("Toppings Chef", 3, 1, 2);
+  oven = new Pipeline("Oven", 1, 1, 1);
+  waiter = new Pipeline("Waiter", 2, 1, 1);
+  var totalStartTime = null;
+  var totalEndTime = null;
 
   /**
    * Define list of orders , can be expanded to more info about each order
@@ -66,11 +69,15 @@ async function main() {
    */
   function processPizza(order, index) {
     return new Promise((resolve) => {
+      ordersArray[index].startTime = new Date().toJSON();
       doughChef
         .start(order, index)
         .then(() => toppingsChef.start(order, index))
         .then(() => oven.start(order, index))
         .then(() => waiter.start(order, index))
+        .then(() => {
+          ordersArray[index].endTime = new Date().toJSON();
+        })
         .then(() => resolve());
     });
   }
@@ -79,11 +86,15 @@ async function main() {
     const promises = ordersArray.map((order, index) =>
       processPizza(order, index)
     );
-    Promise.all(promises);
+    totalStartTime = new Date().toJSON();
+    Promise.all(promises).then(() => {
+      totalEndTime = new Date().toJSON();
+      console.log("All orders started at : " + totalStartTime);
+      console.log("All orders ended at : " + totalEndTime);
+      console.log("List of orders status:");
+      console.log(ordersArray);
+    });
   });
-
-  //TODO save report to DB
-  console.log("done");
 }
 
 main();
