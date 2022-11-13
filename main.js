@@ -1,4 +1,5 @@
 const { createLogger, format, transports } = require("winston");
+const sem = require("semaphore")
 const logger = createLogger({
   format: format.combine(format.timestamp(), format.json()),
   transports: [new transports.Console({})],
@@ -14,7 +15,7 @@ const logger = createLogger({
 class Pipeline {
   //TODO handle concurrency
   constructor(name, limit, timeout, concurrency) {
-    this.sem = require("semaphore")(limit);
+    this.sem = sem(limit);
     this.name = name;
     this.timeout = timeout * 1000;
   }
@@ -91,7 +92,7 @@ async function main() {
 
   await new Promise(() => {
     const promises = ordersArray.map((order, index) =>
-      processPizza(order, index)
+      processPizzaAwait(order, index)
     );
     totalStartTime = new Date().toJSON();
     Promise.all(promises).then(() => {
