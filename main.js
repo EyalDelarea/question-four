@@ -1,6 +1,5 @@
-const { logger } = require("./logger");
-const { Pipeline } = require("./Pipeline");
-const { PizzaOrder } = require("./PizzaOrder");
+const { Pipeline } = require("./modules/Pipeline");
+const { PizzaOrder } = require("./modules/PizzaOrder");
 
 let totalStartTime = null;
 let totalEndTime = null;
@@ -17,6 +16,11 @@ const ordersArray = [
   new PizzaOrder(0),
 ];
 
+/**
+ * The process each pizza has to pass
+ * @param {*} order 
+ * @param {*} index 
+ */
 async function processPizza(order, index) {
   const pizzOrder = ordersArray[index];
   pizzOrder.startTime = new Date().toJSON();
@@ -34,7 +38,6 @@ async function main() {
   totalStartTime = new Date().toJSON();
   await Promise.all(promises);
   totalEndTime = new Date().toJSON();
-  logger.info("Thank you! Everyone has been feed. now let's see the results:");
   const total = {
     start_time: totalStartTime,
     end_time: totalEndTime,
@@ -46,4 +49,5 @@ async function main() {
   return [ordersArray, total];
 }
 
-main();
+
+main()
