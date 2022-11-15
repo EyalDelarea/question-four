@@ -7,6 +7,7 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=question_four
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/create_tables.sql
     ports:

@@ -1,5 +1,7 @@
 const { Pipeline } = require("./modules/Pipeline");
 const { PizzaOrder } = require("./modules/PizzaOrder");
+const { savePizzaReport, saveTotalReport }= require("./modules/DbDal");
+const { createLogger } = require("winston");
 
 let totalStartTime = null;
 let totalEndTime = null;
@@ -45,7 +47,12 @@ async function main() {
       Date.parse(totalEndTime) - Date.parse(totalStartTime)
     ).getSeconds(),
   };
-  console.log([ordersArray, total]);
+ const {id} = await saveTotalReport(total)
+  ordersArray.map(async (p)=>{
+   await savePizzaReport(p,id)
+  })
+
+ 
   return [ordersArray, total];
 }
 
