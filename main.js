@@ -1,7 +1,6 @@
 const { Pipeline } = require("./modules/Pipeline");
 const { PizzaOrder } = require("./modules/PizzaOrder");
 const { savePizzaReport, saveTotalReport }= require("./modules/DbDal");
-const { createLogger } = require("winston");
 
 let totalStartTime = null;
 let totalEndTime = null;
