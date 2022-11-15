@@ -51,7 +51,7 @@ async function main() {
    await savePizzaReport(p,id)
   })
 
- 
+  console.log([ordersArray, total])
   return [ordersArray, total];
 }
 
