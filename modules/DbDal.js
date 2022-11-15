@@ -32,7 +32,7 @@ const savePizzaReport =async (report,id)=>{
 const  saveTotalReport = async (totalReport)=>{
     const text = "\
             INSERT INTO\
-            public.restaurant_report (start_time,\
+            restaurant_report (start_time,\
             end_time,\
             total_duration_seconds)\
             values ($1,$2,$3) returning id   "
