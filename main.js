@@ -4,10 +4,10 @@ const { savePizzaReport, saveTotalReport }= require("./modules/DbDal");
 
 let totalStartTime = null;
 let totalEndTime = null;
-const doughChef = new Pipeline("Dough Chef", 2, 1, 1);
-const toppingsChef = new Pipeline("Toppings Chef", 3, 1, 2);
-const oven = new Pipeline("Oven", 1, 1, 1);
-const waiter = new Pipeline("Waiter", 2, 1, 1);
+const doughChef = new Pipeline("Dough Chef", 2, 7, 1);
+const toppingsChef = new Pipeline("Toppings Chef", 3, 4, 2);
+const oven = new Pipeline("Oven", 1, 10, 1);
+const waiter = new Pipeline("Waiter", 2, 5, 1);
 
 const ordersArray = [
   new PizzaOrder(1),
